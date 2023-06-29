@@ -25,8 +25,9 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 - This module overrides the global function for loading files. Thus, it's recommended that you load it as early as possible in your program.
 - It should be mostly backward compatible with the original require function, so you can simply drop this into your program with no worries.
 - It should also work with almost any Lua-based system.
-- However, it does change how output values are stored in the global variable *package.loaded*. Instead, output values will be stored in an array. (ex: If *libs.myFile* returns *42*, then *package.loaded["libs.myFile"]* will contain *{42}* instead of just *42*)
+- However, it does change how output values are stored in the global variable *package.loaded*. Instead, output values will be stored in an array. (ex: If *libs.myFile* returns *42*, then *package.loaded["libs.myFile"]* will contain *{42}* instead of just *42*). However, this shouldn't be a problem for 99% of Lua programs.
 - Like the original require function, each file is only loaded once, after which its output values can be found inside *package.loaded*. This means that you only need to provide input values to a required file once. After that, you can load the file elsewhere without having to provide the inputs again.
+- Finally, this mod may produce different error messages than the original require function.
 
 ### Potential Uses:
 - Initialize a module with data.
