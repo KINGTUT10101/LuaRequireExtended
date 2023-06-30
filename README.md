@@ -6,7 +6,7 @@ This is a small module that replaces the *require* function in Lua. It extends i
 `local output1, output2 = require ("libs.myFile", input1, input2, input3)`
 
 ### Inside the Required File:
-To access the input values inside a required file, use the same method you'd use for a function with varargs. To return multiple values from a required file, simply return multiple values (easy, right?).
+To access the input values inside a required file, use the same methods you'd use for a function with varargs. To return multiple values from a required file, simply return multiple values (easy, right?).
 ```lua
 -- (Inside libs/myFile.lua)
 local param1, param2, param3 = ...
@@ -25,14 +25,14 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 - This module overrides the global function for loading files. Thus, it's recommended that you load it as early as possible in your program.
 - It should be mostly backward compatible with the original require function, so you can simply drop this into your program with no worries.
 - It should also work with almost any Lua-based system.
-- However, it does change how output values are stored in the global variable *package.loaded*. Instead, output values will be stored in an array. (ex: If *libs.myFile* returns *42*, then *package.loaded["libs.myFile"]* will contain *{42}* instead of just *42*). However, this shouldn't be a problem for 99% of Lua programs.
+- However, it does change how output values are stored in the global variable *package.loaded*. Instead, output values will be stored in an array. (ex: If *libs.myFile* returns *42*, then *package.loaded["libs.myFile"]* will contain *{42}* instead of just *42*). However, this shouldn't be a problem for most Lua programs.
 - Like the original require function, each file is only loaded once, after which its output values can be found inside *package.loaded*. This means that you only need to provide input values to a required file once. After that, you can load the file elsewhere without having to provide the inputs again.
-- Finally, this mod may produce different error messages than the original require function.
+- This mod may produce different error messages than the original require function.
 
 ### Potential Uses:
 - Initialize a module with data.
 
-`local mapManager = require ("mapManager", blankMap")`
+`local blankMap = {0, 0, 0}; local mapManager = require ("mapManager", blankMap)`
 - Provide settings to a library.
 
 `local useSlices = false; local menuMaster = require ("menuMaster", useSlices)`
