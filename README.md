@@ -23,7 +23,7 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 `require ("requireExt")`
 
 ### Notes:
-- This module has only been tested for **Lua version 5.1**! Due to changes to the package system, this may not work in other versions. Feel free to make issues if you encounter any problems.
+- This module has only been tested for **Lua version 5.1** (used in LOVE2D)! Due to changes to the package system, this may not work in other versions. Feel free to make issues if you encounter any problems.
 - This module overrides the global function for loading files. Thus, it's recommended that you load it as early as possible in your program.
 - It should be mostly backward compatible with the original require function, so you can simply drop this into your program with no worries.
 - It should also work with almost any Lua-based system.
