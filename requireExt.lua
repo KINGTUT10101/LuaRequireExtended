@@ -1,60 +1,42 @@
---[[
-    REQUIRE EXTENDED:
-    - Ex: local out1, out2 = require ("libs.myFile", input1, input2, input3)
-    - This module overrides global function for loading files (require)
-    - It allows users to send parameters to required files through varargs
-    - It also allows required files to return multiple values
-    - It should be mostly backwards compatible with the old version of require
-    - NOTE: This function changes how package.loaded stores output data,
-        so this may break programs that rely on that (although they're quite rare)
-        (package.loaded will now store outputs in an array)
-    - NOTE: The error messages may be different than with the original require function
-    - It's recommended that you load this file first thing in your program
-]]
-
+-- The module uses the address of the table as a key inside tables stored within package.loaded
+-- This is done to distinguish require values from requireExt values
+local masterKey = {}
 
 require = function (filename, ...)
     -- File hasn't been loaded yet
     if package.loaded[filename] == nil then
         local outputs -- Holds the values returned by the file
-        local filepath = string.gsub(filename, "%.", "/")
+        local success = false -- Will be set to true of the function can find the file
 
-        -- Split package.path into individual paths
-        local paths = {}
-        for path in package.path:gmatch("[^;]+") do
-            table.insert(paths, path)
-        end
-        table.insert(paths, filename .. "/init.lua")
+        -- Iterate over package.loaders and attempt to find a proper module loader
+        for i = 1, #package.loaders do
+            local result = package.loaders[i] (filename)
 
-        -- Iterate over each path and check if the module file exists
-        -- IDK if this actually works for files on other paths since I never use this feature
-        local func
-        for _, path in ipairs(paths) do
-            local testFilepath = path:gsub("%?", filepath) -- Replace "?" with the module path
-            func = loadfile (testFilepath)
-
-            if func ~= nil then
+            if type (result) == "function" then
+                outputs = {result (filename, ...)} -- Loads the file and stores the outputs
+                success = true
                 break
-            end
+            end 
         end
 
-        if func == nil then
+        if success == false then
             error ("Module '" .. filename .. "' not found.")
         end
-
-        outputs = {func (...)} -- Gets the outputs
         
-        if #package.loaded[filename] == 0 then
+        if #outputs == nil then
             package.loaded[filename] = {true} -- Saves the returned values to the global table
+            package.loaded[filename][masterKey] = true -- Sets the master key
             return true -- Returns true if the required file had no outputs (matching the behavior of the original function)
         else
             package.loaded[filename] = outputs -- Saves the returned values to the global table
+            package.loaded[filename][masterKey] = true -- Sets the master key
             return unpack (outputs) -- Returns the values outputted by the required file
         end
 
     -- File was loaded with the original require
-    elseif type (package.loaded[filename]) ~= "table" then
-        package.loaded[filename] = {package.loaded[filename]}
+    elseif type (package.loaded[filename]) ~= "table" or package.loaded[filename][masterKey] ~= true then
+        package.loaded[filename] = {package.loaded[filename]} -- Moves the value into a table
+        package.loaded[filename][masterKey] = true -- Sets the master key
         return unpack (package.loaded[filename])
 
     -- File was successfully loaded in the past
