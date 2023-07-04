@@ -34,14 +34,14 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 ### Potential Uses:
 - Pass the main module table to submodules
 ```lua
--- (Inside camera.lua)
+-- (Inside camera/init.lua)
 local requirePath = ...
 local camera = {}
 require (requirePath .. ".utils", camera) -- Loads the submodule
 return camera
 ```
 ```lua
--- (Inside utils.lua)
+-- (Inside camera/utils.lua)
 local requirePath, camera = ...
 camera.utils = {}
 -- *** A list of functions for the submodule ***
@@ -61,8 +61,8 @@ camera.utils = {}
 `local screenHandler, message = require ("classes.screenHandler")`
 
 ### Known Issues:
-- If you load a module using different require (file) paths, it will load the module multiple times (this is because modules are indexed by require path inside package.loaded)
-- Relative require paths also don't seem to work (ex: Using something like `require ("json")` in a file outside the root folder of the project)
+- If you load a module using different require (file) paths, it will load the module multiple times (this is because modules are indexed by require path inside package.loaded).
+- Relative require paths also don't seem to work (ex: Using something like `require ("json")` in a file outside the root folder of the project).
 - (To my understanding, these limitations are also present within Lua 5.1)
 
 ### Final Thoughts:
