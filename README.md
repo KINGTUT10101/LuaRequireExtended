@@ -32,6 +32,21 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 - This mod may produce different error messages than the original require function.
 
 ### Potential Uses:
+- Pass the main module table to submodules
+```lua
+-- (Inside camera.lua)
+local requirePath = ...
+local camera = {}
+require (requirePath .. ".utils", camera) -- Loads the submodule
+return camera
+```
+```lua
+-- (Inside utils.lua)
+local requirePath, camera = ...
+camera.utils = {}
+-- *** A list of functions for the submodule ***
+```
+
 - Initialize a module with data.
 
 `local blankMap = {0, 0, 0}; local mapManager = require ("mapManager", blankMap)`
@@ -44,6 +59,11 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 - Providing a value and a custom message when a library is loaded.
 
 `local screenHandler, message = require ("classes.screenHandler")`
+
+### Known Issues:
+- If you load a module using different require (file) paths, it will load the module multiple times (this is because modules are indexed by require path inside package.loaded)
+- Relative require paths also don't seem to work (ex: Using something like `require ("json")` in a file outside the root folder of the project)
+- (To my understanding, these limitations are also present within Lua 5.1)
 
 ### Final Thoughts:
 Admittedly, some might argue that this module is redundant and might encourage people to create messier code. To that, I must agree. Generally, there are many other ways to accomplish the potential uses I described. However, I've uploaded it here in case someone still finds this useful for their personal programming style. After all, I think it's important to offer alternative methods.
