@@ -32,7 +32,7 @@ Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/b
 - This mod may produce different error messages than the original require function.
 
 ### Potential Uses:
-- Pass the main module table to submodules
+- Passing the main module table to submodules
 ```lua
 -- (Inside camera/init.lua)
 local requirePath = ...
@@ -47,16 +47,16 @@ camera.utils = {}
 -- *** A list of functions for the submodule ***
 ```
 
-- Initialize a module with data.
+- Initializing a module with data.
 
 `local blankMap = {0, 0, 0}; local mapManager = require ("mapManager", blankMap)`
-- Provide settings to a library.
+- Providing settings to a library.
 
 `local useSlices = false; local menuMaster = require ("menuMaster", useSlices)`
-- Use an input value to determine which parts of your library to load (can be helpful if you want to maintain different versions of the library without loading them all into memory or separating them into different libraries).
+- Using an input value to determine which parts of your library to load (can be helpful if you want to maintain different versions of the library without loading them all into memory or separating them into different libraries).
 
 `local version = "Android"; local playerCon = require ("playerController", version)`
-- Providing a value and a custom message when a library is loaded.
+- Providing a value containg a custom message/status when a library is loaded.
 
 `local screenHandler, message = require ("classes.screenHandler")`
 
