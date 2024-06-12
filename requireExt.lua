@@ -23,7 +23,7 @@ require = function (filename, ...)
             error ("Module '" .. filename .. "' not found.")
         end
         
-        if #outputs == nil then
+        if #outputs == 0 then
             package.loaded[filename] = {true} -- Saves the returned values to the global table
             package.loaded[filename][masterKey] = true -- Sets the master key
             return true -- Returns true if the required file had no outputs (matching the behavior of the original function)
