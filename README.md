@@ -18,7 +18,7 @@ return "foo", "bar"
 ```
 
 ### Including the Module:
-Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/blob/main/requireExt.lua "file") and require it at the top of your program like so:
+Simply download this [file](https://github.com/KINGTUT10101/LuaRequireExtended/blob/main/requireExt.lua "file") and require it at the top of your program like so (assuming it's at the root of the project):
 
 `require ("requireExt")`
 
